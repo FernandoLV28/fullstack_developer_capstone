@@ -29,8 +29,11 @@ SECRET_KEY =\
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['localhost', 'https://fernandolope-8000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai']
-CSRF_TRUSTED_ORIGINS = ['https://fernandolope-8000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai']
+# ALLOWED_HOSTS = ['localhost', 'https://fernandolope-8000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai']
+# CSRF_TRUSTED_ORIGINS = ['https://fernandolope-8000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai']
+
+ALLOWED_HOSTS = []
+CSRF_TRUSTED_ORIGINS = []
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [],
