@@ -13,13 +13,16 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 # - Any other fields you would like to include in car make model
 # - __str__ method to print a car make object
 
+# Modelo para la marca de coche
 class CarMake(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField()
-    # Other fields as needed
+    name = models.CharField(max_length=50)  # Nombre de la marca de coche
+    description = models.TextField()  # Descripción de la marca de coche
+    country = models.CharField(max_length=50, blank=True, null=True)  # País de origen (opcional)
+    founded_year = models.IntegerField(blank=True, null=True)  # Año de fundación de la marca (opcional)
 
     def __str__(self):
-        return self.name  # Return the name as the string representation
+        """Retorna una representación amigable del objeto CarMake"""
+        return f'{self.name} - {self.description}'
 
 # <HINT> Create a Car Model model `class CarModel(models.Model):`:
 # - Many-To-One relationship to Car Make model (One Car Make has many
@@ -31,22 +34,31 @@ class CarMake(models.Model):
 # - Any other fields you would like to include in car model
 # - __str__ method to print a car make object
 
+# Modelo para el coche (CarModel)
 class CarModel(models.Model):
-    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # Many-to-One relationship
-    name = models.CharField(max_length=100)
-    CAR_TYPES = [
-        ('SEDAN', 'Sedan'),
-        ('SUV', 'SUV'),
-        ('WAGON', 'Wagon'),
-        # Add more choices as required
+    SEDAN = 'Sedan'
+    SUV = 'SUV'
+    WAGON = 'Wagon'
+    COUPE = 'Coupe'
+    CONVERTIBLE = 'Convertible'
+    
+    # Definimos las opciones para el tipo de coche
+    CAR_TYPE_CHOICES = [
+        (SEDAN, 'Sedán'),
+        (SUV, 'SUV'),
+        (WAGON, 'Wagon'),
+        (COUPE, 'Coupe'),
+        (CONVERTIBLE, 'Convertible'),
     ]
-    type = models.CharField(max_length=10, choices=CAR_TYPES, default='SUV')
-    year = models.IntegerField(default=2023,
-        validators=[
-            MaxValueValidator(2023),
-            MinValueValidator(2015)
-        ])
-    # Other fields as needed
-
+    
+    car_make = models.ForeignKey(CarMake, on_delete=models.CASCADE)  # Relación de muchos a uno con CarMake
+    dealership_id = models.IntegerField()  # Referencia a un concesionario en la base de datos Cloudant
+    name = models.CharField(max_length=50)  # Nombre del modelo de coche
+    car_type = models.CharField(max_length=20, choices=CAR_TYPE_CHOICES)  # Tipo de coche (Sedán, SUV, etc.)
+    year = models.DateField()  # Año del modelo de coche
+    color = models.CharField(max_length=20, blank=True, null=True)  # Color del coche (opcional)
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # Precio del coche (opcional)
+    
     def __str__(self):
-        return self.name  # Return the name as the string representation
+        """Retorna una representación amigable del objeto CarModel"""
+        return f'{self.car_make.name} {self.name} ({self.year.year}) - {self.car_type}'
