@@ -13,7 +13,8 @@ def initiate():
     car_make_instances = []
     for data in car_make_data:
         car_make_instance = CarMake.objects.create(name=data['name'], description=data['description'])
-        print(f"Marca creada: {car_make_instance.name}")  # Verifica que se crea cada marca
+        #Verify that the instance was created
+        print(f"Marca creada: {car_make_instance.name}")
         car_make_instances.append(car_make_instance)
 
     car_model_data = [

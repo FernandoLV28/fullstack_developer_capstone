@@ -95,7 +95,7 @@ def registration(request):
 # def add_review(request):
 # ...
 
-#function get cars
+#function to get cars
 def get_cars(request):
     count = CarMake.objects.filter().count()
     print(count)
@@ -108,3 +108,25 @@ def get_cars(request):
         cars.append({"CarModel": car_model.name, "CarMake": car_model.car_make.name})
     return JsonResponse({"CarModels": cars})
 
+# Function to get car makes
+def get_car_make(request):
+    count = CarMake.objects.filter().count()
+    print(f"Cantidad de marcas de coches: {count}")
+    
+    if count == 0:
+        from .populate import initiate
+        initiate()
+    
+    car_makes = CarMake.objects.all()
+    makes = []
+    
+    for car_make in car_makes:
+        makes.append({
+            "id": car_make.id,
+            "name": car_make.name,
+            "description": car_make.description,
+            "country": car_make.country,
+            "founded_year": car_make.founded_year
+        })
+        
+    return JsonResponse({"CarMakes": makes})
